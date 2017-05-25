@@ -61,13 +61,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
             @Override
             public boolean onQueryTextChange(String query) {
                 Timber.d(query);
-                if (query.length() >= Config.START_SEARCH_LENGTH) {
+                if (query.length() >= Config.START_SEARCH_LENGTH)
                     progressBar.setVisibility(View.VISIBLE);
-                    presenter.loadMusicTracks(query);
-                } else {
+                else
                     emptyTextView.setText(R.string.main_title);
-                    onMusicTracksLoaded(new ArrayList<>(), query);
-                }
+
+                presenter.loadMusicTracks(query);
                 return false;
             }
         });
