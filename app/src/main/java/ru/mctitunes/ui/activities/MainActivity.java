@@ -9,21 +9,26 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import ru.mctitunes.Config;
 import ru.mctitunes.R;
-import ru.mctitunes.entities.TunesContent;
+import ru.mctitunes.entities.MusicTrack;
 import ru.mctitunes.ui.adapters.TunesContentAdapter;
+import ru.mctitunes.ui.presenters.MainPresenter;
+import ru.mctitunes.ui.views.MainView;
 import timber.log.Timber;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainView {
+
+    MainPresenter presenter;
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -50,27 +55,49 @@ public class MainActivity extends AppCompatActivity {
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-                Timber.d(newText);
+            public boolean onQueryTextChange(String query) {
+                Timber.d(query);
+                if (query.length() >= Config.START_SEARCH_LENGTH)
+                    presenter.loadMusicTracks(query);
                 return false;
-            }
-        });
-
-        mSearchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
-            @Override
-            public void onSearchViewShown() {
-                Timber.d("onSearchViewShown");
-            }
-
-            @Override
-            public void onSearchViewClosed() {
-                Timber.d("onSearchViewClosed");
             }
         });
 
         mRecyclerView.setHasFixedSize(true);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
+
+        presenter = new MainPresenter();
+        presenter.bindView(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+
+        MenuItem item = menu.findItem(R.id.action_search);
+        mSearchView.setMenuItem(item);
+
+        return true;
+    }
+
+    @Override
+    public void onMusicTracksLoaded(List<MusicTrack> musicTracks) {
+        if (musicTracks.size() > 0) {
+            emptyTextView.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+
+            TunesContentAdapter contentAdapter = new TunesContentAdapter(MainActivity.this, musicTracks);
+            mRecyclerView.setAdapter(contentAdapter);
+        } else {
+            emptyTextView.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onLoadFailed(Throwable throwable) {
+        Toast.makeText(this, "Oops, Something went wrong..", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -82,12 +109,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-
-        MenuItem item = menu.findItem(R.id.action_search);
-        mSearchView.setMenuItem(item);
-
-        return true;
+    public void onDestroy() {
+        if (presenter != null)
+            presenter.unbindView(this);
+        super.onDestroy();
     }
 }

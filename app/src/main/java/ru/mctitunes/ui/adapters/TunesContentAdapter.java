@@ -16,7 +16,6 @@ import java.util.List;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import ru.mctitunes.R;
-import ru.mctitunes.entities.MusicTrack;
 import ru.mctitunes.ui.interfaces.SearchResult;
 
 public class TunesContentAdapter extends RecyclerView.Adapter<TunesContentAdapter.TContentViewHolder> {
