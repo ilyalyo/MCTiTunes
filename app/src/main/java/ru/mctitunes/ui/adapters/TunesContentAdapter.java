@@ -17,6 +17,7 @@ import java.util.List;
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import ru.mctitunes.R;
 import ru.mctitunes.ui.interfaces.SearchResult;
+import ru.mctitunes.utils.StringUtils;
 
 public class TunesContentAdapter extends RecyclerView.Adapter<TunesContentAdapter.TContentViewHolder> {
 
@@ -66,7 +67,7 @@ public class TunesContentAdapter extends RecyclerView.Adapter<TunesContentAdapte
 
         void onBindViewHolder(SearchResult tunesContent) {
             titleTextView.setText(tunesContent.getTitle());
-            descriptionTextView.setText(tunesContent.getDescription());
+            descriptionTextView.setText(StringUtils.getDescriptionForSearchResult(tunesContent, context));
             Picasso.with(context).load(tunesContent.getAvatar())
                     .transform(new CropCircleTransformation())
                     .into(avatarImageView);

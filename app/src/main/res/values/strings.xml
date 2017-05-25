@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">MCTiTunes</string>
+    <string name="mock_string">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam auctor litora pretium nascetur tortor eleifend dignissim. Augue non velit et magna pulvinar lorem id… Urna sodales interdum nec sodales ullamcorper ultricies.</string>
+    <string name="main_title">Looking for smthn?\nEnter at least 3 characters to start!</string>
+    <string name="music_track_description">Country: %1$s\nPrice is: %2$s</string>
+    <string name="nothing_was_found">Nothing was found :(</string>
 </resources>

@@ -8,11 +8,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.miguelcatalan.materialsearchview.MaterialSearchView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -34,10 +36,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
     Toolbar mToolbar;
     @BindView(R.id.material_search_view)
     MaterialSearchView mSearchView;
-    @BindView(R.id.empty_text_view)
+    @BindView(R.id.main_title_text_view)
     TextView emptyTextView;
     @BindView(R.id.search_recycler_view)
     RecyclerView mRecyclerView;
+    @BindView(R.id.progressBar)
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +61,13 @@ public class MainActivity extends AppCompatActivity implements MainView {
             @Override
             public boolean onQueryTextChange(String query) {
                 Timber.d(query);
-                if (query.length() >= Config.START_SEARCH_LENGTH)
+                if (query.length() >= Config.START_SEARCH_LENGTH) {
+                    progressBar.setVisibility(View.VISIBLE);
                     presenter.loadMusicTracks(query);
+                } else {
+                    emptyTextView.setText(R.string.main_title);
+                    onMusicTracksLoaded(new ArrayList<>(), query);
+                }
                 return false;
             }
         });
@@ -82,7 +91,14 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @Override
-    public void onMusicTracksLoaded(List<MusicTrack> musicTracks) {
+    public void onMusicTracksLoaded(List<MusicTrack> musicTracks, String query) {
+        progressBar.setVisibility(View.GONE);
+
+        if (query.length() >= Config.START_SEARCH_LENGTH)
+            emptyTextView.setText(R.string.nothing_was_found);
+        else
+            emptyTextView.setText(R.string.main_title);
+
         if (musicTracks.size() > 0) {
             emptyTextView.setVisibility(View.GONE);
             mRecyclerView.setVisibility(View.VISIBLE);
@@ -97,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements MainView {
 
     @Override
     public void onLoadFailed(Throwable throwable) {
+        progressBar.setVisibility(View.GONE);
         Toast.makeText(this, "Oops, Something went wrong..", Toast.LENGTH_SHORT).show();
     }
 

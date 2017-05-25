@@ -16,8 +16,8 @@ public class MusicTrack implements SearchResult {
         return artistName + " - " + trackName;
     }
 
-    public String getDescription() {
-        return String.format("Country: %s\nPrice is: %s", country, trackPrice);
+    public String getPrice() {
+        return trackPrice;
     }
 
     public String getAvatar() {

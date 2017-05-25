@@ -5,7 +5,7 @@ import java.util.List;
 import ru.mctitunes.entities.MusicTrack;
 
 public interface MainView {
-    void onMusicTracksLoaded(List<MusicTrack> musicTracks);
+    void onMusicTracksLoaded(List<MusicTrack> musicTracks, String query);
 
     void onLoadFailed(Throwable throwable);
 }

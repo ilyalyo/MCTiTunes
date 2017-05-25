@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
+    android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingLeft="16dp"
@@ -16,30 +16,27 @@
         android:layout_height="match_parent"
         android:layout_marginRight="16dp"
         android:scaleType="centerInside"
-        tools:ignore="ContentDescription"
-        android:src="@drawable/ic_action_navigation_close"/>
+        android:src="@drawable/ic_action_navigation_close"
+        tools:ignore="ContentDescription" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_margin="4dp">
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:paddingRight="70dp"
-            android:text="adfsdfddddddddddddddddddddddddddddddddd"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:text="@string/mock_string" />
 
         <TextView
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
-            android:ellipsize="end"
             android:maxLines="2"
-            tools:text="Long last message to see how margin on the right side worksdddddddddddddddddddddddddddddddddddddddddddddddddddddd" />
+            tools:text="@string/mock_string" />
     </LinearLayout>
 </LinearLayout>
