@@ -111,6 +111,12 @@ public class MainActivity extends AppCompatActivity implements MainView {
     }
 
     @Override
+    public void onForbidden() {
+        progressBar.setVisibility(View.GONE);
+        Toast.makeText(this, "Seems like you access is limited (403 ERROR)", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void onLoadFailed(Throwable throwable) {
         progressBar.setVisibility(View.GONE);
         Toast.makeText(this, "Oops, Something went wrong..", Toast.LENGTH_SHORT).show();

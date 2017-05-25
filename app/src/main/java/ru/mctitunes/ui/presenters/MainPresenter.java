@@ -2,6 +2,7 @@ package ru.mctitunes.ui.presenters;
 
 import android.support.annotation.NonNull;
 
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -31,13 +32,18 @@ public class MainPresenter extends BasePresenter<MainView> {
                 // this way we can ignore late response, if have recent one
                 if (lastRequestTimestamp > currentRequestTimestamp)
                     return;
-                MusicTrackResponse musicTrackResponse = response.body();
-                if (musicTrackResponse != null) {
-                    Timber.d(musicTrackResponse.getResultCount().toString());
-                    Timber.d(query);
-                    view.onMusicTracksLoaded(musicTrackResponse.getResults(), query);
-                } else
-                    view.onLoadFailed(new Throwable("empty response"));
+                if (response.isSuccessful()) {
+                    MusicTrackResponse musicTrackResponse = response.body();
+                    if (musicTrackResponse != null) {
+                        Timber.d(musicTrackResponse.getResultCount().toString());
+                        Timber.d(query);
+                        view.onMusicTracksLoaded(musicTrackResponse.getResults(), query);
+                    } else
+                        view.onLoadFailed(new Throwable("empty response"));
+                } else if (response.code() == HttpURLConnection.HTTP_FORBIDDEN)
+                    view.onForbidden();
+                else
+                    view.onLoadFailed(new Throwable("response failed"));
             }
 
             @Override
