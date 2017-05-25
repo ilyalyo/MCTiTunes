@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    tools:ignore="RtlHardcoded">
+
+    <ImageView
+        android:id="@+id/avatar"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_marginRight="16dp"
+        android:scaleType="centerInside"
+        tools:ignore="ContentDescription"
+        android:src="@drawable/ic_action_navigation_close"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:paddingRight="70dp"
+            android:text="adfsdfddddddddddddddddddddddddddddddddd"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            tools:text="Long last message to see how margin on the right side worksdddddddddddddddddddddddddddddddddddddddddddddddddddddd" />
+    </LinearLayout>
+</LinearLayout>
