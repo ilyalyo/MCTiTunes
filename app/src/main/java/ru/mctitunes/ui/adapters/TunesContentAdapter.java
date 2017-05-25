@@ -16,15 +16,16 @@ import java.util.List;
 
 import jp.wasabeef.picasso.transformations.CropCircleTransformation;
 import ru.mctitunes.R;
-import ru.mctitunes.entities.TunesContent;
+import ru.mctitunes.entities.MusicTrack;
+import ru.mctitunes.ui.interfaces.SearchResult;
 
 public class TunesContentAdapter extends RecyclerView.Adapter<TunesContentAdapter.TContentViewHolder> {
 
     private Context context;
-    private List<TunesContent> items = new ArrayList<>();
+    private List<? extends SearchResult> items = new ArrayList<>();
     private LayoutInflater inflater;
 
-    public TunesContentAdapter(Context context, List<TunesContent> items) {
+    public TunesContentAdapter(Context context, List<? extends SearchResult> items) {
         this.context = context;
         this.items = items;
         inflater = LayoutInflater.from(context);
@@ -64,8 +65,9 @@ public class TunesContentAdapter extends RecyclerView.Adapter<TunesContentAdapte
             avatarImageView = (ImageView) itemView.findViewById(R.id.avatar);
         }
 
-        void onBindViewHolder(TunesContent tunesContent) {
+        void onBindViewHolder(SearchResult tunesContent) {
             titleTextView.setText(tunesContent.getTitle());
+            descriptionTextView.setText(tunesContent.getDescription());
             Picasso.with(context).load(tunesContent.getAvatar())
                     .transform(new CropCircleTransformation())
                     .into(avatarImageView);
